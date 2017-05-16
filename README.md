@@ -15,10 +15,10 @@ Add the following to /etc/rc.local
 ## REST Commands
 
 /voltage  
-/forward/<seconds>  
-/backward/<seconds>  
-/right/<seconds>  
-/left/<seconds>  
+/forward/\<seconds>  
+/backward/\<seconds>  
+/right/\<seconds>  
+/left/\<seconds>  
 
 ## JQuery
 
@@ -26,14 +26,12 @@ To allow this to work without an internet connection download jquery.min.js and 
 
 ## Background image
 
-Download a background image, name if MarsBackground.png and put it in the directory with index.html.
+Download a background image, name it MarsBackground.png and put it in the directory with index.html.
 
 ## Battery monitor
 
-You will need an AnalogZero board and a potential divider (Vin is the main battery. i.e. 12v).
+You will need an AnalogZero board and a potential divider (Vin is the main battery. i.e. 12v).  The code uses input A1.
 
-Vin--10k--+--3.3k--GND  
-          |  
-          A1  
+Vin--10k--A1--3.3k--GND    
 
 Connect a buzzer to GPIO13
