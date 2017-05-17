@@ -7,7 +7,7 @@ from http import server
 from gpiozero import Motor, MCP3008
 from time import sleep
 
-path = '/home/pi/marsrover/'
+PATH = '/home/pi/marsrover/'
 
 rightMotor = Motor(16,19)
 leftMotor = Motor(20,21)
@@ -43,7 +43,7 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
             self.send_header('Location', '/index.html')
             self.end_headers()
         elif self.path == '/index.html':
-            f = open(path+'index.html', 'rb')
+            f = open(PATH+'index.html', 'rb')
             self.send_response(200)
             self.send_header('Content-Type', 'text/html')
             self.end_headers()
@@ -72,21 +72,21 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                     'Removed streaming client %s: %s',
                     self.client_address, str(e))
         elif self.path == '/MarsBackground.png':
-            f = open(path+'MarsBackground.png', 'rb')
+            f = open(PATH+'MarsBackground.png', 'rb')
             self.send_response(200)
             self.send_header('Content-Type', 'image/png')
             self.end_headers()
             self.wfile.write(f.read())
             f.close()
         elif self.path == '/jquery.min.js':
-            f = open(path+'jquery.min.js', 'rb')
+            f = open(PATH+'jquery.min.js', 'rb')
             self.send_response(200)
             self.send_header('Content-Type', 'application/javascript')
             self.end_headers()
             self.wfile.write(f.read())
             f.close()
         elif self.path == '/static.gif':
-            f = open(path+'static.gif', 'rb')
+            f = open(PATH+'static.gif', 'rb')
             self.send_response(200)
             self.send_header('Content-Type', 'image/gif')
             self.end_headers()
