@@ -150,6 +150,7 @@ function executeCommands(){
         numLines--; // ignore last command line if it is zero length
     }
     if(numLines > 0){
+        $("#response").append("Executing commands<br />");
         $.ajax({url: commands[0][0] + "/" + commands[0][1] + "/", success: function(result){
             $("#response").append("Command line 1 " + result + "<br />");
             if(numLines > 1){
