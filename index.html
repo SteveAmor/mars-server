@@ -90,7 +90,7 @@ var myVar = setInterval(function(){ getVoltage() }, 1000);
 
 function getVoltage() {
     $.getJSON("/voltage/", function(jsonData){
-        $("#voltage").html("Battery voltage: " + jsonData[0].value + " Volts");
+        $("#voltage").html("Battery voltage: " + jsonData[0].value.toFixed(3) + " Volts");
         if(jsonData[0].value > 11) {
             $("#voltage").css("backgroundColor", "Green");
         } else if(jsonData[0].value > 10) {

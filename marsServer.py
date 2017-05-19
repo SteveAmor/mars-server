@@ -97,7 +97,7 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
             self.send_response(200)
             self.send_header('Content-Type', 'text/html')
             self.end_headers()
-            self.voltagestr = "[{ \"value\": \"" + "{:0.3f}".format(self.voltage) + "\" }]"
+            self.voltagestr = "[{ \"value\": " + "{:0.3f}".format(self.voltage) + " }]"
             self.wfile.write(self.voltagestr.encode('utf-8'))
         elif self.path.split("/")[1] == 'forward':
             try:
