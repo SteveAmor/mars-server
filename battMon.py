@@ -14,7 +14,7 @@ while True:
     sleep(0.5)
     voltage = adc.value * Vref * potentialDividerMultiplier
 
-    if voltage < 10: # 10V threshold to prevent battery damage
+    if voltage < 10.5: # 10.5V threshold to prevent battery damage
         for i in range (5):
             buzzer.on()
             sleep(0.5)
