@@ -64,8 +64,12 @@ function getVoltage() {
 }
 
 function clearCommands() {
-    document.getElementById("commands").value = "";
-    document.getElementById("response").innerHTML = "Type your commands in the window above and click Submit<br />";
+    $("#commands").val('');
+    if(commsError) {
+        $("#response").html("Communuction Error. Cannot submit commands at this time");
+    } else {
+        $("#response").html("Type your commands in the window above and click Submit<br />");
+    }
 }
 
 var commands = [];
