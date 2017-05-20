@@ -31,7 +31,7 @@
 
 var commsError = true;
 
-var myVar = setInterval(function(){ getVoltage() }, 1000);
+var updateVoltage = setInterval(function(){ getVoltage() }, 1000);
 
 function getVoltage() {
     $.getJSON("/voltage/", function(jsonData){
