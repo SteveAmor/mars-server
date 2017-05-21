@@ -9,7 +9,7 @@
   <div style="width:100%;">
     <div style="float: left;">
       <h1>Mars Rover Live Pictures</h1>
-      <img id="screen" src="stream.mjpg" width="640" height="480" style="display: none;"/>
+      <img id="cameraView" src="stream.mjpg" width="640" height="480" style="display: none;"/>
       <img id="static" src="static.gif" width="640" height="480" />
       <h2 id="voltage">Waiting for battery voltage</h2>
     </div>
@@ -44,8 +44,8 @@ function getVoltage() {
             $("#voltage").css("backgroundColor", "Red");
         }
         if(commsError){ // comms restored but commsError is true so do this lot once
-            $("#screen").show();
-            $("#screen").attr("src", "stream.mjpg");
+            $("#cameraView").show();
+            $("#cameraView").attr("src", "stream.mjpg");
             $("#static").hide();
             $("#response").html("Type your commands in the window above and click Submit<br />");
             $("#commands").css("color", "Green");
@@ -59,8 +59,8 @@ function getVoltage() {
         $("#submit").css("backgroundColor", "Orange");
         $("#commands").css("color", "Red");
         $("#static").show();
-        $("#screen").hide();
-        $("#screen").attr("src", "");
+        $("#cameraView").hide();
+        $("#cameraView").attr("src", "");
         $("#response").html("Communuction Error. Cannot submit commands at this time");
     });
 }
