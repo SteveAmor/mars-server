@@ -78,7 +78,7 @@ function submitCommands() {
     if(commsError){
         return;
     }
-    document.getElementById("response").innerHTML = "Type your commands in the window above and click Submit<br />";
+    $("#response").html("Type your commands in the window above and click Submit<br />");
     if(testCommands()) {
         executeCommands();
     }
