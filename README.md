@@ -9,12 +9,12 @@ Change path in `marsServer.py` if not.
 
 Add the following to /etc/rc.local
 
-(python3 /home/pi/marsrover/marsServer.py) &  
-(python3 /home/pi/marsrover/battMon.py) &
+(python3 /home/pi/marsrover/marsServer.py > /dev/null 2>&1) &  
+(python3 /home/pi/marsrover/battMon.py > /dev/null 2>&1) &
 
 ## REST Commands
 
-/voltage  
+/voltage/  
 /forward/\<seconds>  
 /backward/\<seconds>  
 /right/\<seconds>  
