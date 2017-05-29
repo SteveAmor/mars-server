@@ -1,10 +1,10 @@
-"use strict"
+"use strict";
 
 var comms_error = true;
 var user_command_list = [];
 
 var updateVoltage = setInterval(function() {
-  getVoltage()
+  getVoltage();
 }, 1000);
 
 function getVoltage() {
@@ -40,7 +40,7 @@ function getVoltage() {
 }
 
 function clearCommands() {
-  $("#commands").val('');
+  $("#commands").val("");
   if (comms_error) {
     $("#response").html("Communuction Error. Cannot submit commands at this time");
   } else {
@@ -149,15 +149,15 @@ function testCommands() {
       user_command_list[i] = lines[i].split(" ");
       if (isInt(user_command_list[i][1])) {
         if (user_command_list[i][1] < 1 || user_command_list[i][1] > 5) {
-          $("#response").append("Error line " + (i + 1) + " value out of range (must be 1, 2, 3, 4 or 5)<br />")
+          $("#response").append("Error line " + (i + 1) + " value out of range (must be 1, 2, 3, 4 or 5)<br />");
           goodCommands = false;
         }
       } else {
-        $("#response").append("Error line " + (i + 1) + " value is not an integer<br />")
+        $("#response").append("Error line " + (i + 1) + " value is not an integer<br />");
         goodCommands = false;
       }
     } else {
-      $("#response").append("Syntax error line " + (i + 1) + "<br />")
+      $("#response").append("Syntax error line " + (i + 1) + "<br />");
       goodCommands = false;
     }
   }
@@ -172,29 +172,33 @@ $(document).ready(function() {
     var lines = textarea.value.split("\n");
 
     for (var i = 0; i < lines.length; i++) {
-      if (lines[i].length <= spaces) continue;
+      if (lines[i].length <= spaces) {
+        continue;
+      }
       var j = 0;
       var space = spaces;
       while (j++ <= spaces) {
-        if (lines[i].charAt(j) === " ") space = j;
+        if (lines[i].charAt(j) === " ") {
+          space = j;
+        }
       }
       lines[i + 1] = lines[i].substring(space + 1) + (lines[i + 1] || "");
       lines[i] = lines[i].substring(0, space);
     }
     if (lines.length > limit) {
-      textarea.style.color = 'red';
+      textarea.style.color = "red";
       setTimeout(function() {
         if (comms_error) {
-          textarea.style.color = 'red';
+          textarea.style.color = "red";
         } else {
-          textarea.style.color = 'green';
+          textarea.style.color = "green";
         }
       }, 500);
     }
     textarea.value = lines.slice(0, limit).join("\n");
   };
 })
- 
+
 function isInt(value) {
   return !isNaN(value) && (function(x) {
     return (x | 0) === x;
