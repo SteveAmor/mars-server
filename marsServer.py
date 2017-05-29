@@ -92,6 +92,13 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(f.read())
             f.close()
+        elif self.path == '/marsui.js':
+            f = open(PATH+'marsui.js', 'rb')
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/javascript')
+            self.end_headers()
+            self.wfile.write(f.read())
+            f.close()
         elif self.path == '/static.gif':
             f = open(PATH+'static.gif', 'rb')
             self.send_response(200)
