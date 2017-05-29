@@ -1,7 +1,7 @@
 "use strict"
 
-var commsError = true;
-var commands = [];
+var comms_error = true;
+var user_command_list = [];
 
 var updateVoltage = setInterval(function() {
   getVoltage()
@@ -17,7 +17,7 @@ function getVoltage() {
       } else {
         $("#voltage").css("backgroundColor", "Red");
       }
-      if (commsError) { // comms restored but commsError is true so do this lot once
+      if (comms_error) { // comms restored but comms_error is true so do this lot once
         $("#cameraView").show();
         $("#cameraView").attr("src", "stream.mjpg");
         $("#static").hide();
@@ -26,10 +26,10 @@ function getVoltage() {
         $("#submit").css("backgroundColor", "Green");
         $("#submit").css("color", "White");
       }
-      commsError = false;
+      comms_error = false;
     })
     .fail(function() {
-      commsError = true;
+      comms_error = true;
       $("#submit").css("backgroundColor", "Orange");
       $("#commands").css("color", "Red");
       $("#static").show();
@@ -41,7 +41,7 @@ function getVoltage() {
 
 function clearCommands() {
   $("#commands").val('');
-  if (commsError) {
+  if (comms_error) {
     $("#response").html("Communuction Error. Cannot submit commands at this time");
   } else {
     $("#response").html("Type your commands in the window above and click Submit<br />");
@@ -49,7 +49,7 @@ function clearCommands() {
 }
 
 function submitCommands() {
-  if (commsError) {
+  if (comms_error) {
     return;
   }
   $("#response").html("Type your commands in the window above and click Submit<br />");
@@ -70,7 +70,7 @@ function executeCommands() {
   if (numLines > 0) {
     $("#response").append("Executing commands<br />");
     $.ajax({
-        url: commands[0][0] + "/" + commands[0][1] + "/",
+        url: user_command_list[0][0] + "/" + user_command_list[0][1] + "/",
         success: function(result) {
           $("#response").append("Command line 1 " + result + "<br />");
           if (numLines == 1) {
@@ -79,7 +79,7 @@ function executeCommands() {
           }
           if (numLines > 1) {
             $.ajax({
-                url: commands[1][0] + "/" + commands[1][1] + "/",
+                url: user_command_list[1][0] + "/" + user_command_list[1][1] + "/",
                 success: function(result) {
                   $("#response").append("Command line 2 " + result + "<br />");
                   if (numLines == 2) {
@@ -88,7 +88,7 @@ function executeCommands() {
                   }
                   if (numLines > 2) {
                     $.ajax({
-                        url: commands[2][0] + "/" + commands[2][1] + "/",
+                        url: user_command_list[2][0] + "/" + user_command_list[2][1] + "/",
                         success: function(result) {
                           $("#response").append("Command line 3 " + result + "<br />");
                           if (numLines == 3) {
@@ -97,7 +97,7 @@ function executeCommands() {
                           }
                           if (numLines > 3) {
                             $.ajax({
-                                url: commands[3][0] + "/" + commands[3][1] + "/",
+                                url: user_command_list[3][0] + "/" + user_command_list[3][1] + "/",
                                 success: function(result) {
                                   $("#response").append("Command line 4 " + result + "<br />");
                                   enableSubmit();
@@ -146,9 +146,9 @@ function testCommands() {
   }
   for (var i = 0; i < numLines; i++) {
     if (lines[i].indexOf("forward ") === 0 || lines[i].indexOf("backward ") === 0 || lines[i].indexOf("left ") === 0 || lines[i].indexOf("right ") === 0) {
-      commands[i] = lines[i].split(" ");
-      if (isInt(commands[i][1])) {
-        if (commands[i][1] < 1 || commands[i][1] > 5) {
+      user_command_list[i] = lines[i].split(" ");
+      if (isInt(user_command_list[i][1])) {
+        if (user_command_list[i][1] < 1 || user_command_list[i][1] > 5) {
           $("#response").append("Error line " + (i + 1) + " value out of range (must be 1, 2, 3, 4 or 5)<br />")
           goodCommands = false;
         }
@@ -184,7 +184,7 @@ $(document).ready(function() {
     if (lines.length > limit) {
       textarea.style.color = 'red';
       setTimeout(function() {
-        if (commsError) {
+        if (comms_error) {
           textarea.style.color = 'red';
         } else {
           textarea.style.color = 'green';
