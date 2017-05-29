@@ -60,6 +60,7 @@ function submitCommands() {
 
 function executeCommands() {
   disableSubmit();
+  disableCommands();
   var textarea = document.getElementById("commands");
   var lines = textarea.value.split("\n");
   var numLines = lines.length;
@@ -74,6 +75,7 @@ function executeCommands() {
           $("#response").append("Command line 1 " + result + "<br />");
           if (numLines == 1) {
             enableSubmit();
+            enableCommands();
           }
           if (numLines > 1) {
             $.ajax({
@@ -82,6 +84,7 @@ function executeCommands() {
                   $("#response").append("Command line 2 " + result + "<br />");
                   if (numLines == 2) {
                     enableSubmit();
+                    enableCommands();
                   }
                   if (numLines > 2) {
                     $.ajax({
@@ -90,6 +93,7 @@ function executeCommands() {
                           $("#response").append("Command line 3 " + result + "<br />");
                           if (numLines == 3) {
                             enableSubmit();
+                            enableCommands();
                           }
                           if (numLines > 3) {
                             $.ajax({
@@ -97,11 +101,13 @@ function executeCommands() {
                                 success: function(result) {
                                   $("#response").append("Command line 4 " + result + "<br />");
                                   enableSubmit();
+                                  enableCommands();
                                 }
                               })
                               .fail(function() {
                                 $("#response").append("No response from rover<br />");
                                 enableSubmit();
+                                enableCommands();
                               });
                           }
                         }
@@ -109,6 +115,7 @@ function executeCommands() {
                       .fail(function() {
                         $("#response").append("No response from rover<br />");
                         enableSubmit();
+                        enableCommands();
                       });
                   }
                 }
@@ -116,6 +123,7 @@ function executeCommands() {
               .fail(function() {
                 $("#response").append("No response from rover<br />");
                 enableSubmit();
+                enableCommands();
               });
           }
         }
@@ -123,6 +131,7 @@ function executeCommands() {
       .fail(function() {
         $("#response").append("No response from rover<br />");
         enableSubmit();
+        enableCommands();
       });
   }
 }
@@ -195,13 +204,11 @@ function isInt(value) {
 function enableSubmit() {
   $("#submit").attr("disabled", false);
   $("#submit").css("backgroundColor", "Green");
-  enableCommands();
 }
 
 function disableSubmit() {
   $("#submit").attr("disabled", true);
   $("#submit").css("backgroundColor", "Orange");
-  disableCommands();
 }
 
 function enableCommands() {
