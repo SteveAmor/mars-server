@@ -1,7 +1,6 @@
 "use strict";
 
 var comms_error = true;
-var user_command_list = [];
 
 var updateVoltage = setInterval(function() {
   getVoltage();
