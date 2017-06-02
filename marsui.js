@@ -219,9 +219,9 @@ function validateCommands() {
 
 $(document).ready(function() {
   document.getElementById("commands").onkeyup = function() {
-    var limit = 4; // <---max no of lines you want in textarea
     var textarea = document.getElementById("commands");
-    var spaces = textarea.getAttribute("cols");
+    var spaces = textarea.getAttribute("cols"); // <---max no of characters on each line in textarea
+    var limit = textarea.getAttribute("lines"); // <---max no of lines in textarea
     var lines = textarea.value.split("\n");
 
     for (var i = 0; i < lines.length; i++) {
