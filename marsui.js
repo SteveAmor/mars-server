@@ -64,8 +64,8 @@ function executeCommands() {
   var lines = textarea.value.split("\n");
   var numLines = lines.length;
   var user_command_list = getUserCommandList();
-  if (numLines > 1 && lines[numLines - 1].length === 0) {
-    numLines--; // ignore last command line if it is zero length
+  while (numLines > 1 && lines[numLines - 1].length === 0) {
+    numLines--; // ignore trailing command line(s) if zero length
   }
   if (numLines > 0) {
     $("#response").append("Executing commands<br />");
@@ -142,8 +142,8 @@ function getUserCommandList() {
   var lines = textarea.value.split("\n");
   var numLines = lines.length;
 
-  if (numLines > 1 && lines[numLines - 1].length === 0) {
-    numLines--; // ignore last command line if it is zero length
+  while (numLines > 1 && lines[numLines - 1].length === 0) {
+    numLines--; // ignore trailing command line(s) if zero length
   }
 
   for (var i = 0; i < numLines; i++) {
