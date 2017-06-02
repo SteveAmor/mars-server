@@ -53,7 +53,7 @@ function submitCommands() {
     return;
   }
   $("#response").html("Type your commands in the window above and click Submit<br />");
-  if (testCommands()) {
+  if (validateCommands()) {
     executeCommands();
   }
 }
@@ -64,6 +64,7 @@ function executeCommands() {
   var textarea = document.getElementById("commands");
   var lines = textarea.value.split("\n");
   var numLines = lines.length;
+  var user_command_list = getUserCommandList();
   if (numLines > 1 && lines[numLines - 1].length === 0) {
     numLines--; // ignore last command line if it is zero length
   }
@@ -136,32 +137,85 @@ function executeCommands() {
   }
 }
 
-function testCommands() {
-  var goodCommands = true;
+function getUserCommandList() {
+  var user_command_list = [];
   var textarea = document.getElementById("commands");
   var lines = textarea.value.split("\n");
   var numLines = lines.length;
+
   if (numLines > 1 && lines[numLines - 1].length === 0) {
     numLines--; // ignore last command line if it is zero length
   }
+
   for (var i = 0; i < numLines; i++) {
-    if (lines[i].indexOf("forward ") === 0 || lines[i].indexOf("backward ") === 0 || lines[i].indexOf("left ") === 0 || lines[i].indexOf("right ") === 0) {
       user_command_list[i] = lines[i].split(" ");
-      if (isInt(user_command_list[i][1])) {
-        if (user_command_list[i][1] < 1 || user_command_list[i][1] > 5) {
-          $("#response").append("Error line " + (i + 1) + " value out of range (must be 1, 2, 3, 4 or 5)<br />");
-          goodCommands = false;
-        }
-      } else {
-        $("#response").append("Error line " + (i + 1) + " value is not an integer<br />");
-        goodCommands = false;
-      }
-    } else {
-      $("#response").append("Syntax error line " + (i + 1) + "<br />");
-      goodCommands = false;
+  }
+  return user_command_list;
+}
+
+
+function validateCommands() {
+  // valid_command_list = [["command", lower_argument, upper_argument, "units"]]
+  var valid_command_list = [["forward",  1, 5,   "lengths"],
+                            ["backward", 1, 5,   "lengths"],
+                            ["right",    0, 180, "degrees"],
+                            ["left",     0, 180, "degrees"]];
+
+  var user_command_list = getUserCommandList();
+  var num_user_commands = user_command_list.length;
+  var bad_command = false;
+  var i, j;
+
+  // Test 1 - check each array entry is length 2 (command, argument)
+  for (i = 0; i < num_user_commands; i++) {
+    if (user_command_list[i].length != 2) {
+      $("#response").append("Syntax error in line " + (i + 1) + "<br />");
+      return false;
     }
   }
-  return (goodCommands);
+
+  // Test 2 - check that the first element of each array entry is a valid command
+  for (i = 0; i < num_user_commands; i++) {
+    for (j = 0; j < valid_command_list.length; j++) {
+      if (user_command_list[i][0] !== valid_command_list[j][0]) {
+        bad_command = true;
+      } else {
+        bad_command = false;
+        break;
+      }
+    }
+    if (bad_command) {
+      $("#response").append("Syntax error in line " + (i + 1) + "<br />");
+      return false;
+    }
+  }
+
+  // Test 3 - check that each command argument is an integer
+  for (i = 0; i < num_user_commands; i++) {
+    if (!isInt(user_command_list[i][1])) {
+      $("#response").append("Error in line " + (i + 1) + ", value is not an integer<br />");
+      return false;
+    }
+  }
+
+  // Test 4 - check that each command argument is within the command range
+  for (i = 0; i < num_user_commands; i++) {
+    for (j = 0; j < valid_command_list.length; j++) {
+      if (user_command_list[i][0] === valid_command_list[j][0]) {
+        if (user_command_list[i][1] < valid_command_list[j][1] || user_command_list[i][1] > valid_command_list[j][2]) {
+          $("#response").append("Error in line " + (i + 1) +
+                                ", value out of range (must be from " +
+                                valid_command_list[j][1] + " to " +
+                                valid_command_list[j][2] + " " +
+                                valid_command_list[j][3] + ")<br />");
+          return false;
+        }
+      }
+    }
+  }
+
+  // Passed all tests
+  return true;
 }
 
 $(document).ready(function() {
